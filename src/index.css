@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-obsidiana text-marfil font-sans overflow-x-hidden antialiased selection:bg-champagne selection:text-obsidiana;
+  }
+}
+
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-b from-marfil to-marfil/50;
+}
+
+.text-gradient-gold {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-champagne to-[#B8913C];
+}
+
+.glass-panel {
+  @apply bg-secondary-900/40 backdrop-blur-md border border-white/5 shadow-2xl;
+}
+
+/* En escritorios poco altos, reservar hueco para que las estadísticas
+   absolutas del hero no se solapen con los botones */
+@media (min-width: 768px) and (max-height: 680px) {
+  section#inicio .hero-content {
+    padding-bottom: 8rem;
+  }
+}
+
+/* Accesibilidad: desactivar animaciones y transiciones CSS si el usuario lo pide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
