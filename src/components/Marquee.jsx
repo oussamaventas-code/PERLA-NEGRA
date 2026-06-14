@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 const ITEMS = [
-  "BALENCIAGA", "SAINT LAURENT", "VOGUE", "GQ", "HYPEBEAST", "BANG & OLUFSEN", 
-  "AESOP", "APPLE", "THE WEEKND"
+  "FINE LINE", "BLACKWORK", "REALISMO", "COVER UP", "MICRO REALISMO", "TATUAJE LÁSER", 
+  "ESTUDIO PREMIUM", "ARTISTAS CERTIFICADOS", "BARCELONA", "DISEÑO EXCLUSIVO",
+  "GEOMETRÍA", "ACUARELA", "JAPONÉS", "OLD SCHOOL", "NEO TRADICIONAL"
 ];
 
 export default function Marquee() {
