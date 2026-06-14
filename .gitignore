@@ -1,3 +1,6 @@
+# Assets originales (archivos crudos sin optimizar, demasiado grandes para GitHub)
+assets-originales/
+
 # Logs
 logs
 *.log
