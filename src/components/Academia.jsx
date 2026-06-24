@@ -92,18 +92,24 @@ export default function Academia() {
         );
       });
 
-      // Cards floating animation (on separate DOM elements to avoid conflicts)
-      floatWrappersRef.current.forEach((wrapper, i) => {
-        if (!wrapper) return;
-        gsap.to(wrapper, {
-          y: '+=12',
-          duration: 2.5 + i * 0.4,
-          ease: 'sine.inOut',
-          repeat: -1,
-          yoyo: true,
-          delay: i * 0.3,
+      // Cards floating animation — solo en escritorio y sin movimiento reducido.
+      // En móvil mareaba (las tarjetas apiladas oscilando arriba/abajo en bucle).
+      const canFloat =
+        window.matchMedia('(min-width: 768px)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (canFloat) {
+        floatWrappersRef.current.forEach((wrapper, i) => {
+          if (!wrapper) return;
+          gsap.to(wrapper, {
+            y: '+=12',
+            duration: 2.5 + i * 0.4,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true,
+            delay: i * 0.3,
+          });
         });
-      });
+      }
 
       // CTA reveal
       gsap.fromTo(

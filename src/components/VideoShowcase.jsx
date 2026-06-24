@@ -7,20 +7,16 @@ gsap.registerPlugin(ScrollTrigger);
 export default function VideoShowcase() {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
-  // En pantallas pequeñas o con movimiento reducido mostramos el póster en vez del vídeo
-  const [showVideo, setShowVideo] = useState(false);
+  // El vídeo se muestra en móvil y escritorio; solo se sustituye por el póster
+  // si el usuario tiene activada la preferencia de movimiento reducido
+  const [showVideo, setShowVideo] = useState(true);
 
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 768px)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setShowVideo(desktop.matches && !reducedMotion.matches);
+    const update = () => setShowVideo(!reducedMotion.matches);
     update();
-    desktop.addEventListener('change', update);
     reducedMotion.addEventListener('change', update);
-    return () => {
-      desktop.removeEventListener('change', update);
-      reducedMotion.removeEventListener('change', update);
-    };
+    return () => reducedMotion.removeEventListener('change', update);
   }, []);
 
   useEffect(() => {
