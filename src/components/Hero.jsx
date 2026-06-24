@@ -10,21 +10,16 @@ export default function Hero() {
   const socialRef = useRef(null);
   const bgRef = useRef(null);
   const [bookingOpen, setBookingOpen] = useState(false);
-  // El vídeo solo se sirve en pantallas grandes y sin preferencia de movimiento reducido;
-  // en móvil se queda el póster para no gastar datos
-  const [showVideo, setShowVideo] = useState(false);
+  // El vídeo se sirve en móvil y escritorio; solo se sustituye por el póster
+  // si el usuario tiene activada la preferencia de movimiento reducido
+  const [showVideo, setShowVideo] = useState(true);
 
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 768px)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setShowVideo(desktop.matches && !reducedMotion.matches);
+    const update = () => setShowVideo(!reducedMotion.matches);
     update();
-    desktop.addEventListener('change', update);
     reducedMotion.addEventListener('change', update);
-    return () => {
-      desktop.removeEventListener('change', update);
-      reducedMotion.removeEventListener('change', update);
-    };
+    return () => reducedMotion.removeEventListener('change', update);
   }, []);
 
   useEffect(() => {
@@ -83,7 +78,7 @@ export default function Hero() {
     <>
     <section
       id="inicio"
-      className="relative min-h-screen w-full overflow-hidden flex flex-col justify-center px-8 md:px-24 select-none"
+      className="relative min-h-screen w-full overflow-hidden flex flex-col px-8 md:px-24 select-none"
     >
       {/* Video Background with Parallax and Image Fallback */}
       <div
@@ -106,13 +101,15 @@ export default function Hero() {
           <img
             src="/hero-bg.webp"
             alt=""
+            loading="eager"
+            fetchPriority="high"
             className="w-full h-full object-cover opacity-40 mix-blend-luminosity scale-105"
           />
         )}
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-obsidiana via-obsidiana/80 to-obsidiana/30 z-0 pointer-events-none" />
 
-      <div className="hero-content relative z-10 max-w-5xl mt-24 md:mt-20 pb-32 md:pb-0">
+      <div className="hero-content relative z-10 w-full max-w-5xl flex-1 flex flex-col justify-center pt-28 md:pt-24 pb-6">
         <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-champagne/20 bg-obsidiana/35 px-4 py-2 text-[10px] md:text-xs font-mono uppercase tracking-[0.25em] text-champagne/75 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-champagne shadow-[0_0_12px_rgba(201,168,76,0.8)]" />
           Estudio privado en Murcia
@@ -166,7 +163,7 @@ export default function Hero() {
 
       <div
         ref={socialRef}
-        className="absolute bottom-8 md:bottom-12 left-8 right-8 md:left-24 md:right-auto grid grid-cols-3 md:flex gap-4 md:gap-12 text-sm font-mono tracking-wider"
+        className="relative z-10 w-full grid grid-cols-3 md:flex gap-4 md:gap-12 text-sm font-mono tracking-wider pb-10 md:pb-12"
       >
         <div className="flex flex-col">
           <span className="text-champagne font-bold text-xl">+33.9K</span>

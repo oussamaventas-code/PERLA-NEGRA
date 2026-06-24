@@ -1,10 +1,12 @@
 let audioCtx = null;
-let ambientOsc = null;
-let ambientFilter = null;
-let ambientGain = null;
-let lfo = null;
-let lfoGain = null;
 let isMuted = true;
+
+// --- Música épica de fondo (archivo real) ---
+// Coloca el archivo en: public/audio/epic.mp3
+let bgMusic = null;
+let fadeTimer = null;
+const MUSIC_SRC = '/audio/epic.mp3';
+const MUSIC_VOLUME = 0.6; // Volumen objetivo (0 a 1). Súbelo/bájalo aquí.
 
 export const initAudio = () => {
   if (typeof window === 'undefined') return;
@@ -40,72 +42,53 @@ export const playClick = () => {
   }
 };
 
+// Fundido del volumen de la música hasta un valor objetivo
+const fadeMusic = (target, ms, onDone) => {
+  if (!bgMusic) return;
+  clearInterval(fadeTimer);
+  const steps = 30;
+  const stepTime = Math.max(ms / steps, 10);
+  const start = bgMusic.volume;
+  const delta = (target - start) / steps;
+  let i = 0;
+  fadeTimer = setInterval(() => {
+    i++;
+    const v = Math.min(1, Math.max(0, start + delta * i));
+    bgMusic.volume = v;
+    if (i >= steps) {
+      clearInterval(fadeTimer);
+      bgMusic.volume = target;
+      if (onDone) onDone();
+    }
+  }, stepTime);
+};
+
 export const playAmbient = () => {
   if (isMuted) return;
   try {
-    initAudio();
-    if (ambientOsc) return; // Ya está sonando
-
-    ambientOsc = audioCtx.createOscillator();
-    ambientFilter = audioCtx.createBiquadFilter();
-    ambientGain = audioCtx.createGain();
-
-    ambientOsc.type = 'triangle';
-    ambientOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // Nota La1 (A1) muy grave
-
-    ambientFilter.type = 'lowpass';
-    ambientFilter.frequency.setValueAtTime(80, audioCtx.currentTime); // Filtro ultra cerrado para un zumbido profundo
-    ambientFilter.Q.setValueAtTime(1, audioCtx.currentTime);
-
-    // Ganancia sutil y progresiva
-    ambientGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    ambientGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 2.0); // Entrada suave en 2 segundos
-
-    ambientOsc.connect(ambientFilter);
-    ambientFilter.connect(ambientGain);
-    ambientGain.connect(audioCtx.destination);
-
-    // LFO lento para simular la respiración del espacio
-    lfo = audioCtx.createOscillator();
-    lfoGain = audioCtx.createGain();
-    lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime); // Frecuencia de 0.12Hz
-    lfoGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-
-    lfo.connect(lfoGain);
-    lfoGain.connect(ambientGain.gain);
-
-    ambientOsc.start();
-    lfo.start();
+    if (!bgMusic) {
+      bgMusic = new Audio(MUSIC_SRC);
+      bgMusic.loop = true;
+      bgMusic.preload = 'auto';
+    }
+    bgMusic.currentTime = 0; // Empieza desde el inicio para que "entre fuerte"
+    bgMusic.volume = 0;
+    bgMusic.play().catch((e) => console.warn('La música no pudo reproducirse:', e));
+    fadeMusic(MUSIC_VOLUME, 600); // Entrada rápida y potente
   } catch (e) {
-    console.warn('Ambient drone failed to start:', e);
+    console.warn('Música de fondo falló:', e);
   }
 };
 
 export const stopAmbient = () => {
-  try {
-    if (ambientGain && audioCtx) {
-      // Desvanecimiento suave de salida antes de apagar
-      ambientGain.gain.cancelScheduledValues(audioCtx.currentTime);
-      ambientGain.gain.setValueAtTime(ambientGain.gain.value, audioCtx.currentTime);
-      ambientGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
-      
-      const oscToStop = ambientOsc;
-      const lfoToStop = lfo;
-      
-      setTimeout(() => {
-        try {
-          if (oscToStop) oscToStop.stop();
-          if (lfoToStop) lfoToStop.stop();
-        } catch {
-          // Silent catch for node stopping
-        }
-      }, 500);
+  if (!bgMusic) return;
+  fadeMusic(0, 400, () => {
+    try {
+      bgMusic.pause();
+    } catch {
+      // Silent catch
     }
-  } catch (e) {
-    console.warn('Ambient drone failed to stop:', e);
-  }
-  ambientOsc = null;
-  lfo = null;
+  });
 };
 
 export const toggleMute = () => {

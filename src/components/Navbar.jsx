@@ -6,6 +6,8 @@ import { Menu, Volume2, VolumeX, X } from 'lucide-react';
 import { playClick, toggleMute, getMuteState, initAudio } from '../utils/soundController';
 import { trackInstagramClick } from '../utils/analytics';
 import BookingForm from './BookingForm';
+import { STUDIO } from '../data/constants';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -136,7 +138,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:gap-4">
           {/* Instagram */}
           <a
-            href="https://www.instagram.com/perlanegramurcia/"
+            href={STUDIO.instagram}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram Perla Negra"
@@ -146,6 +148,7 @@ export default function Navbar() {
           >
             <InstagramIcon className="w-4 h-4 text-marfil/50 group-hover:text-champagne transition-colors" />
           </a>
+
 
           <button
             onClick={handleAudioToggle}
@@ -193,6 +196,7 @@ export default function Navbar() {
       </div>
 
       <div
+        aria-hidden={!isMenuOpen}
         className={`md:hidden overflow-hidden transition-all duration-300 ${
           isMenuOpen ? 'max-h-96 opacity-100 pt-5' : 'max-h-0 opacity-0'
         }`}
@@ -202,6 +206,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
+              tabIndex={isMenuOpen ? 0 : -1}
               onClick={() => setIsMenuOpen(false)}
               className="px-2 py-3 text-sm uppercase tracking-[0.2em] text-marfil/75 hover:text-champagne transition-colors"
             >
@@ -209,17 +214,20 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="https://www.instagram.com/perlanegramurcia/"
+            href={STUDIO.instagram}
             target="_blank"
             rel="noopener noreferrer"
+            tabIndex={isMenuOpen ? 0 : -1}
             onClick={() => { setIsMenuOpen(false); trackInstagramClick('mobile_menu'); }}
             className="flex items-center gap-3 px-2 py-3 text-sm uppercase tracking-[0.2em] text-marfil/75 hover:text-champagne transition-colors"
           >
             <InstagramIcon className="w-4 h-4" />
             Instagram
           </a>
+
           <button
             onClick={() => { setIsMenuOpen(false); setBookingOpen(true); playClick(); }}
+            tabIndex={isMenuOpen ? 0 : -1}
             className="mt-2 text-center rounded-full bg-champagne px-5 py-3 text-xs font-bold uppercase tracking-widest text-obsidiana cursor-pointer"
           >
             Reservar consulta
@@ -227,12 +235,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      <style>{`
-        @keyframes soundWave {
-          0% { height: 2px; }
-          100% { height: 10px; }
-        }
-      `}</style>
     </nav>
 
     <BookingForm isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />

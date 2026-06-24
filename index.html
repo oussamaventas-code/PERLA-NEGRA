@@ -20,6 +20,11 @@
     <meta name="twitter:image" content="https://TU-DOMINIO.com/og-image.jpg" />
     <link rel="canonical" href="https://TU-DOMINIO.com/" />
     <meta name="theme-color" content="#0E0E12" />
+
+    <!-- Preload del hero para mejorar LCP -->
+    <link rel="preload" as="image" href="/hero-bg.webp" fetchpriority="high" />
+    <link rel="preload" as="video" href="/HERO/hero.mp4" type="video/mp4" media="(min-width: 768px)" />
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",

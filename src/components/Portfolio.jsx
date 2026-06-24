@@ -2,85 +2,22 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { playClick } from '../utils/soundController';
+import { CATEGORIES, PORTFOLIO_ITEMS } from '../data/portfolio';
+import { STUDIO } from '../data/constants';
+import { trackInstagramClick } from '../utils/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CATEGORIES = [
-  { id: 'all', label: 'Todos' },
-  { id: 'blackwork', label: 'Blackwork' },
-  { id: 'realismo', label: 'Realismo' },
-  { id: 'microrealismo', label: 'Microrealismo' },
-  { id: 'fineline', label: 'Fine Line' },
-  { id: 'color', label: 'Color' },
-  { id: 'coverup', label: 'Cover Up' },
-];
-
-const PORTFOLIO_ITEMS = [
-  {
-    id: 1,
-    image: '/portfolio/blackwork.webp',
-    artist: 'Juande Gambín',
-    category: 'blackwork',
-    title: 'Geometría Sagrada',
-  },
-  {
-    id: 2,
-    image: '/portfolio/realism.webp',
-    artist: 'Kore',
-    category: 'realismo',
-    title: 'Retrato Hiperrealista',
-  },
-  {
-    id: 3,
-    image: '/portfolio/microrealism.webp',
-    artist: 'Fabio Climent',
-    category: 'microrealismo',
-    title: 'Detalle Microscópico',
-  },
-  {
-    id: 4,
-    image: '/portfolio/fineline.webp',
-    artist: 'Fabio Climent',
-    category: 'fineline',
-    title: 'Trazo Eterno',
-  },
-  {
-    id: 5,
-    image: '/portfolio/color.webp',
-    artist: 'Pablo',
-    category: 'color',
-    title: 'Explosión Cromática',
-  },
-  {
-    id: 6,
-    image: '/portfolio/coverup.webp',
-    artist: 'Juande Gambín',
-    category: 'coverup',
-    title: 'Renacimiento',
-  },
-  {
-    id: 7,
-    image: '/portfolio/blackwork2.webp',
-    artist: 'Pablo',
-    category: 'blackwork',
-    title: 'Mandala Oscuro',
-  },
-  {
-    id: 8,
-    image: '/portfolio/realism2.webp',
-    artist: 'Kore',
-    category: 'realismo',
-    title: 'Naturaleza Viva',
-  },
-  {
-    id: 9,
-    image: '/portfolio/fineline.webp',
-    artist: 'Fabio Climent',
-    category: 'fineline',
-    title: 'Líneas del Alma',
-  },
-];
+// SVG inline — lucide-react v1.x no incluye Instagram
+const InstagramIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <circle cx="12" cy="12" r="4"/>
+    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+  </svg>
+);
 
 export default function Portfolio() {
   const sectionRef = useRef(null);
@@ -272,6 +209,26 @@ export default function Portfolio() {
             </div>
           ))}
         </div>
+
+        {/* Instagram CTA */}
+        <div className="mt-14 md:mt-20 flex justify-center">
+          <a
+            href={STUDIO.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={playClick}
+            onClick={() => trackInstagramClick('portfolio')}
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 hover:border-champagne/40 hover:bg-white/5 transition-all duration-300"
+          >
+            <span className="p-1.5 rounded-full bg-white/5 border border-white/10 group-hover:border-champagne/30 group-hover:bg-champagne/10 transition-all duration-300">
+              <InstagramIcon className="w-4 h-4 text-marfil/50 group-hover:text-champagne transition-colors" />
+            </span>
+            <span className="text-sm font-mono text-marfil/60 group-hover:text-champagne transition-colors tracking-wider">
+              Ver más en{' '}
+              <strong className="text-marfil group-hover:text-champagne transition-colors">@perlanegramurcia</strong>
+            </span>
+          </a>
+        </div>
       </div>
 
       {/* Lightbox */}
@@ -293,7 +250,7 @@ export default function Portfolio() {
           </button>
 
           {/* Counter */}
-          <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[9999] text-xs font-mono text-marfil/40 tracking-widest">
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[9999] text-xs font-mono text-marfil/55 tracking-widest">
             {lightboxIndex + 1} / {filteredItems.length}
           </div>
 
@@ -338,17 +295,6 @@ export default function Portfolio() {
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
     </section>
   );
 }

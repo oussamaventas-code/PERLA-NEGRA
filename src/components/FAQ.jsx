@@ -102,7 +102,7 @@ function FAQItem({ item, index, isOpen, onToggle }) {
         >
           <ChevronDown
             className={`w-4 h-4 transition-colors duration-300 ${
-              isOpen ? 'text-champagne' : 'text-marfil/40'
+              isOpen ? 'text-champagne' : 'text-marfil/55'
             }`}
             strokeWidth={2}
           />

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import gsap from 'gsap';
-import { X, Send, ChevronDown } from 'lucide-react';
+import { X, Send, ChevronDown, Phone } from 'lucide-react';
 import { playClick } from '../utils/soundController';
 import { trackWhatsAppClick } from '../utils/analytics';
+import { STUDIO, WHATSAPP_URL } from '../data/constants';
+
 
 const STYLES = ['Blackwork', 'Realismo', 'Microrealismo', 'Fine Line', 'Color', 'Cover Up', 'Otro'];
 const ZONES = ['Brazo', 'Antebrazo', 'Muñeca', 'Mano', 'Pecho', 'Espalda', 'Costilla', 'Pierna', 'Tobillo / Pie', 'Cuello', 'Otro'];
@@ -12,6 +14,7 @@ const ARTISTS = ['Sin preferencia', 'Juande Gambín', 'Kore', 'Pablo', 'Fabio Cl
 
 const INITIAL = {
   nombre: '',
+  telefono: '',
   estilo: '',
   zona: '',
   tamaño: '',
@@ -19,6 +22,7 @@ const INITIAL = {
   referencia: '',
   mensaje: '',
 };
+
 
 function Select({ id, label, options, value, onChange }) {
   return (
@@ -36,7 +40,7 @@ function Select({ id, label, options, value, onChange }) {
             <option key={o} value={o} className="bg-[#0D0D12]">{o}</option>
           ))}
         </select>
-        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-marfil/40 pointer-events-none" />
+        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-marfil/55 pointer-events-none" />
       </div>
     </div>
   );
@@ -84,6 +88,7 @@ export default function BookingForm({ isOpen, onClose, preArtist = '' }) {
       `👋 Hola Perla Negra, quiero reservar una consulta.`,
       ``,
       `👤 *Nombre:* ${form.nombre}`,
+      form.telefono ? `📱 *Teléfono:* ${form.telefono}` : '',
       `🎨 *Estilo:* ${form.estilo}`,
       `📍 *Zona del cuerpo:* ${form.zona}`,
       `📏 *Tamaño:* ${form.tamaño}`,
@@ -92,12 +97,13 @@ export default function BookingForm({ isOpen, onClose, preArtist = '' }) {
       form.mensaje ? `💬 *Notas adicionales:* ${form.mensaje}` : '',
     ].filter(Boolean).join('\n');
 
-    const url = `https://wa.me/34648750092?text=${encodeURIComponent(lines)}`;
+    const url = WHATSAPP_URL(lines);
     trackWhatsAppClick('booking_form');
     window.open(url, '_blank', 'noopener,noreferrer');
     setSent(true);
     setTimeout(() => { setSent(false); handleClose(); setForm({ ...INITIAL, artista: 'Sin preferencia' }); }, 2500);
   };
+
 
   const isValid = form.nombre && form.estilo && form.zona && form.tamaño;
 
@@ -162,6 +168,24 @@ export default function BookingForm({ isOpen, onClose, preArtist = '' }) {
                 placeholder="Ana García"
                 className="bg-white/5 border border-white/10 focus:border-champagne/50 text-marfil text-sm px-4 py-3 rounded-xl outline-none transition-colors duration-200 placeholder:text-marfil/20"
               />
+            </div>
+
+            {/* Teléfono */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="booking-telefono" className="text-[11px] uppercase tracking-[0.2em] font-mono text-marfil/50">
+                Teléfono <span className="text-marfil/30">(opcional)</span>
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-marfil/20 pointer-events-none" />
+                <input
+                  id="booking-telefono"
+                  type="tel"
+                  value={form.telefono}
+                  onChange={(e) => set('telefono')(e.target.value)}
+                  placeholder={STUDIO.phoneDisplay}
+                  className="w-full bg-white/5 border border-white/10 focus:border-champagne/50 text-marfil text-sm pl-10 pr-4 py-3 rounded-xl outline-none transition-colors duration-200 placeholder:text-marfil/20"
+                />
+              </div>
             </div>
 
             <Select id="booking-estilo" label="Estilo de tatuaje *" options={STYLES} value={form.estilo} onChange={set('estilo')} />

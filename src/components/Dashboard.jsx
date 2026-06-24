@@ -162,7 +162,7 @@ export default function Dashboard() {
                     0
                   </p>
 
-                  <p className="text-marfil/40 text-xs md:text-sm font-medium tracking-wide uppercase">
+                  <p className="text-marfil/55 text-xs md:text-sm font-medium tracking-wide uppercase">
                     {kpi.label}
                   </p>
                 </div>

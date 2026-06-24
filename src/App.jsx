@@ -5,16 +5,19 @@ import Marquee from './components/Marquee';
 import Manifesto from './components/Manifesto';
 import Pricing from './components/Pricing';
 import Portfolio from './components/Portfolio';
-import Comparison from './components/Comparison';
-import Dashboard from './components/Dashboard';
+import ConversionPrompt from './components/ConversionPrompt';
 import TestimonialRotator from './components/TestimonialRotator';
 import Academia from './components/Academia';
+import AcademiaVideo from './components/AcademiaVideo';
 import Team from './components/Team';
 import Experience from './components/Experience';
-import Metrics from './components/Metrics';
-import Testimonials from './components/Testimonials';
 import LaserRemoval from './components/LaserRemoval';
 import FAQ from './components/FAQ';
+import VideoShowcase from './components/VideoShowcase';
+// Módulos ocultados (no encajan con un estudio de tatuajes); los archivos siguen
+// disponibles por si se quieren recuperar:
+// import Comparison from './components/Comparison';
+// import Dashboard from './components/Dashboard';
 import CTAFinal from './components/CTAFinal';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
@@ -60,46 +63,41 @@ function App() {
           {/* Marquee de confianza */}
           <Marquee />
 
-          {/* Manifiesto */}
-          <Manifesto />
-
-          {/* Precios orientativos */}
-          <Pricing />
-
-          {/* Portfolio Inmersivo */}
+          {/* Portfolio Inmersivo — prueba social (incluye famosos), va arriba */}
           <Portfolio />
 
-          {/* Micro UI #1 — Comparador */}
-          <Comparison />
-
-          {/* Micro UI #2 — Dashboard KPIs */}
-          <Dashboard />
-
-          {/* Micro UI #3 — Testimonios Rotativos */}
-          <TestimonialRotator />
-
-          {/* Academia */}
-          <Academia />
+          {/* Manifiesto */}
+          <Manifesto />
 
           {/* Equipo */}
           <Team />
 
+          {/* Academia */}
+          <Academia />
+
+          {/* Vídeo vertical de la academia */}
+          <AcademiaVideo />
+
           {/* Experiencia Perla Negra — Proceso Sticky Stack */}
           <Experience />
 
-          {/* Métricas Gigantes */}
-          <Metrics />
+          {/* Precios orientativos */}
+          <Pricing />
 
-          {/* Testimonios Editoriales */}
-          <Testimonials />
+          {/* Testimonios Rotativos */}
+          <TestimonialRotator />
 
           {/* Eliminación Láser */}
           <LaserRemoval />
 
+          {/* Sección de vídeo — el estudio en movimiento */}
+          <VideoShowcase />
+
           {/* FAQ */}
           <FAQ />
 
-          {/* CTA Final */}
+          {/* Refuerzo de conversión + CTA Final */}
+          <ConversionPrompt />
           <CTAFinal />
 
           {/* Footer */}

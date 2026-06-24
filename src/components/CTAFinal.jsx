@@ -220,7 +220,7 @@ export default function CTAFinal() {
           <span className="text-gradient-gold">empieza aquí.</span>
         </h2>
 
-        <p className="cta-subtitle text-lg md:text-xl text-marfil/40 font-light max-w-2xl mx-auto mb-14">
+        <p className="cta-subtitle text-lg md:text-xl text-marfil/55 font-light max-w-2xl mx-auto mb-14">
           Reserva una consulta y transforma una idea en algo permanente.
         </p>
 

@@ -100,17 +100,17 @@ export default function Pricing() {
                   <Icon className={`w-5 h-5 ${plan.featured ? 'text-champagne' : 'text-marfil/60'}`} />
                 </div>
 
-                <p className="text-xs font-mono uppercase tracking-[0.25em] text-marfil/40 mb-2">{plan.label}</p>
+                <p className="text-xs font-mono uppercase tracking-[0.25em] text-marfil/55 mb-2">{plan.label}</p>
 
                 <div className="flex items-baseline gap-1 mb-6">
                   {plan.unit && plan.unit !== '€/h' && (
-                    <span className="text-marfil/40 text-sm">desde</span>
+                    <span className="text-marfil/55 text-sm">desde</span>
                   )}
                   <span className={`text-4xl md:text-5xl font-bold tracking-tighter ${plan.featured ? 'text-champagne' : 'text-marfil'}`}>
                     {plan.from}
                   </span>
                   {plan.unit && (
-                    <span className="text-marfil/40 text-lg">{plan.unit}</span>
+                    <span className="text-marfil/55 text-lg">{plan.unit}</span>
                   )}
                 </div>
 

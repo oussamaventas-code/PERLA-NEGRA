@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { MapPin, ExternalLink } from 'lucide-react';
 import LegalModal from './LegalModal';
 import { trackInstagramClick, trackWhatsAppClick } from '../utils/analytics';
+import { STUDIO, WHATSAPP_URL } from '../data/constants';
+
 
 // Inline Instagram SVG
 const InstagramIcon = ({ className }) => (
@@ -29,7 +31,7 @@ export default function Footer() {
               Tattoo Studio
             </div>
           </div>
-          <div className="mt-24 flex items-center gap-3 text-xs font-mono text-marfil/40">
+          <div className="mt-24 flex items-center gap-3 text-xs font-mono text-marfil/55">
             <div className="w-2 h-2 rounded-full bg-champagne animate-pulse shadow-[0_0_10px_rgba(201,168,76,0.8)]"></div>
             AGENDA ABIERTA
           </div>
@@ -37,7 +39,7 @@ export default function Footer() {
 
         {/* Address + Maps */}
         <div>
-          <h4 className="text-xs uppercase tracking-widest text-marfil/40 mb-6 font-mono">Ubicación</h4>
+          <h4 className="text-xs uppercase tracking-widest text-marfil/55 mb-6 font-mono">Ubicación</h4>
           <p className="text-sm font-light leading-relaxed text-marfil/80">
             Calle Profesor Joaquín Abellán<br />
             30500<br />
@@ -67,12 +69,12 @@ export default function Footer() {
             Cómo llegar →
           </a>
           <div className="mt-10">
-            <h4 className="text-xs uppercase tracking-widest text-marfil/40 mb-4 font-mono">Contacto</h4>
-            <a href="tel:+34648750092" className="text-lg font-mono text-champagne hover:text-white transition-colors cursor-pointer">
-              648 75 00 92
+            <h4 className="text-xs uppercase tracking-widest text-marfil/55 mb-4 font-mono">Contacto</h4>
+            <a href={`tel:${STUDIO.phoneE164}`} className="text-lg font-mono text-champagne hover:text-white transition-colors cursor-pointer">
+              {STUDIO.phoneDisplay}
             </a>
             <a
-              href="https://wa.me/34648750092?text=Hola%20Perla%20Negra%2C%20quiero%20reservar%20una%20consulta."
+              href={WHATSAPP_URL('Hola Perla Negra, quiero reservar una consulta.')}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackWhatsAppClick('footer')}
@@ -81,11 +83,12 @@ export default function Footer() {
               WhatsApp
             </a>
           </div>
+
         </div>
 
         {/* Hours + Social + Legal */}
         <div>
-          <h4 className="text-xs uppercase tracking-widest text-marfil/40 mb-6 font-mono">Horario</h4>
+          <h4 className="text-xs uppercase tracking-widest text-marfil/55 mb-6 font-mono">Horario</h4>
           <p className="text-sm font-light leading-relaxed text-marfil/80">
             Lunes a Viernes<br />
             <span className="text-marfil">11:30 - 14:00</span><br />
@@ -94,9 +97,9 @@ export default function Footer() {
 
           {/* Social */}
           <div className="mt-10">
-            <h4 className="text-xs uppercase tracking-widest text-marfil/40 mb-4 font-mono">Síguenos</h4>
+            <h4 className="text-xs uppercase tracking-widest text-marfil/55 mb-4 font-mono">Síguenos</h4>
             <a
-              href="https://www.instagram.com/perlanegramurcia/"
+              href={STUDIO.instagram}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackInstagramClick('footer')}
@@ -109,13 +112,14 @@ export default function Footer() {
             </a>
           </div>
 
+
           {/* Google Reviews */}
           <div className="mt-8">
             <a
               href="https://www.google.com/maps/search/?api=1&query=Perla+Negra+Tattoo+Molina+de+Segura"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs text-marfil/40 hover:text-champagne/70 transition-colors font-mono"
+              className="inline-flex items-center gap-2 text-xs text-marfil/55 hover:text-champagne/70 transition-colors font-mono"
             >
               <ExternalLink className="w-3 h-3" />
               Ver las 215 reseñas en Google
@@ -123,7 +127,7 @@ export default function Footer() {
           </div>
 
           <div className="mt-10">
-            <h4 className="text-xs uppercase tracking-widest text-marfil/40 mb-4 font-mono">Legal</h4>
+            <h4 className="text-xs uppercase tracking-widest text-marfil/55 mb-4 font-mono">Legal</h4>
             <div className="flex flex-col gap-2 items-start text-xs text-marfil/50">
               <button onClick={() => setLegalOpen('aviso')} className="hover:text-champagne transition-colors">Aviso Legal</button>
               <button onClick={() => setLegalOpen('privacidad')} className="hover:text-champagne transition-colors">Política de Privacidad</button>

@@ -160,7 +160,7 @@ export default function Team() {
                     id={`reservar-${member.name.toLowerCase().replace(/\s+/g, '-')}`}
                     onClick={() => { setBookingArtist(member.name); playClick(); }}
                     onMouseEnter={playClick}
-                    className="mt-5 w-full py-2.5 rounded-xl border border-champagne/20 text-champagne/70 hover:bg-champagne hover:text-obsidiana hover:border-champagne text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer opacity-0 group-hover:opacity-100"
+                    className="mt-5 w-full py-2.5 rounded-xl border border-champagne/20 text-champagne/70 hover:bg-champagne hover:text-obsidiana hover:border-champagne text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer opacity-100 md:opacity-0 md:group-hover:opacity-100"
                   >
                     Reservar con {member.name.split(' ')[0]}
                   </button>
